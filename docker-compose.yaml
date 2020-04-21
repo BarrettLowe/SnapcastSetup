@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+
+  snapcast:
+    build:
+      context: ./
+      dockerfile: snapcast.Dockerfile
+    volumes:
+      # add the folder that mopidy via HA uses as an output pipe
+      - "/usr/share/hassio/share/audio-output:/tmp"
+      - "${PWD}/snapcast-server.conf:/etc/snapserver.conf"
+    restart: unless-stopped
+    # this has to be put on the host network so for spotify connect to work
+    network_mode: "host"
